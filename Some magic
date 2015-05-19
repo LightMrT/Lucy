@@ -19,6 +19,19 @@ void setup() {
   pinMode(redLed, OUTPUT);
   pinMode(blueLed, OUTPUT);
 
+tmrpcm.speakerPin = 9; //5,6,11 or 46 on Mega, 9 on Uno, Nano, etc
+
+  if (!SD.begin(SD_ChipSelectPin)) {   
+    Serial.println("SD fail");  
+    return;    
+  }
+{
+tmrpcm.play("steady.wav");
+}
+delay(5000);
+{
+tmrpcm.play("hello.wav");  
+}
 }
 
 void loop() {
@@ -34,25 +47,23 @@ void loop() {
   delay(100);
  
  // light magic
-  if (light < 500)
+  if(light < 500)
     { 
       digitalWrite(blueLed, HIGH);
-      
     }
-    else
+        else
     {
       digitalWrite(blueLed, LOW);
     }
     
-    // c02 magic
+    /* c02 magic
       if (co2 < 390)
     { 
       digitalWrite(redLed, HIGH);
-      
     }
     else
     {
       digitalWrite(redLed, LOW);
-    }
+    } */
   
 }
