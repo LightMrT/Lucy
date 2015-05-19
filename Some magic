@@ -12,16 +12,10 @@ TMRpcm tmrpcm;
  int b1, b2, b3;
  int light;
 
-
-  
-
-
 void setup() {
-   
   
   Serial.begin(9600);
   
-
 }
 
 void loop() {
