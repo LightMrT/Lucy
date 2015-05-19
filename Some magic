@@ -5,42 +5,50 @@
 #define SD_ChipSelectPin 10  //using digital pin 4 on arduino nano 328, can use other pins
 #include <SPI.h>
 
-#define redLed 5
-#define blueLed 6
+#define redLed 6
+#define blueLed 5
 TMRpcm tmrpcm;    
 
  int b1, b2, b3;
  int light;
  int co2;
-  
-
 
 void setup() {
    
-  
   Serial.begin(9600);
   pinMode(redLed, OUTPUT);
-
- 
+  pinMode(blueLed, OUTPUT);
 
 }
 
 void loop() {
- 
+
   light = analogRead(0);
   delay(100);
   Serial.println(light);
-  delay(1000);
-  /* 
+  delay(100);
+  
   co2 = analogRead(1);
   delay(100);
   Serial.println(co2);
-  delay(1000);
-  */
-  
+  delay(100);
+ 
+ // light magic
   if (light < 500)
     { 
+      digitalWrite(blueLed, HIGH);
+      
+    }
+    else
+    {
+      digitalWrite(blueLed, LOW);
+    }
+    
+    // c02 magic
+      if (co2 < 390)
+    { 
       digitalWrite(redLed, HIGH);
+      
     }
     else
     {
