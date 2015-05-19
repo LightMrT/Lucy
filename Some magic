@@ -1,8 +1,8 @@
 #include <pcmConfig.h>
 #include <pcmRF.h>
 #include <TMRpcm.h>
-#include <SD.h>                      // need to include the SD library
-#define SD_ChipSelectPin 10  //using digital pin 4 on arduino nano 328, can use other pins
+#include <SD.h>                      
+#define SD_ChipSelectPin 10  
 #include <SPI.h>
 
 #define redLed 6
@@ -19,12 +19,13 @@ void setup() {
   pinMode(redLed, OUTPUT);
   pinMode(blueLed, OUTPUT);
 
-tmrpcm.speakerPin = 9; //5,6,11 or 46 on Mega, 9 on Uno, Nano, etc
+tmrpcm.speakerPin = 9;  
 
   if (!SD.begin(SD_ChipSelectPin)) {   
     Serial.println("SD fail");  
     return;    
   }
+
 {
 tmrpcm.play("steady.wav");
 }
@@ -32,6 +33,7 @@ delay(5000);
 {
 tmrpcm.play("hello.wav");  
 }
+
 }
 
 void loop() {
@@ -67,3 +69,4 @@ void loop() {
     } */
   
 }
+
