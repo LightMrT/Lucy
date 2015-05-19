@@ -1,0 +1,33 @@
+#include <pcmConfig.h>
+#include <pcmRF.h>
+#include <TMRpcm.h>
+#include <SD.h>                      // need to include the SD library
+#define SD_ChipSelectPin 10  //using digital pin 4 on arduino nano 328, can use other pins
+#include <SPI.h>
+
+#define redLed 5
+#define blueLed 6
+TMRpcm tmrpcm;    
+
+ int b1, b2, b3;
+ int light;
+
+
+  
+
+
+void setup() {
+   
+  
+  Serial.begin(9600);
+  
+
+}
+
+void loop() {
+  
+  light = analogRead(0);
+  delay(100);
+  Serial.println(light);
+  delay(1000);
+}
