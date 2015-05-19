@@ -1,43 +1,54 @@
-#include <pcmConfig.h>
-#include <pcmRF.h>
-#include <TMRpcm.h>
-#include <SD.h>                      
+#include <SD.h>   
+
 #define SD_ChipSelectPin 10  
+
+#include <TMRpcm.h>
 #include <SPI.h>
+
+TMRpcm tmrpcm;    
 
 #define redLed 6
 #define blueLed 5
-TMRpcm tmrpcm;    
 
- int b1, b2, b3;
- int light;
- int co2;
+// raw light sensor data
+int light;
+// raw co2 sensor data
+int co2;
+
+// button pins values
+int b1, b2, b3; // это занимает по 4 байта
+
+
+
+
+
+
 
 void setup() {
-   
   Serial.begin(9600);
+  
   pinMode(redLed, OUTPUT);
   pinMode(blueLed, OUTPUT);
-
-tmrpcm.speakerPin = 9;  
+  
+  tmrpcm.speakerPin = 9;  
 
   if (!SD.begin(SD_ChipSelectPin)) {   
     Serial.println("SD fail");  
     return;    
   }
+  
+  tmrpcm.play("steady.wav");
+  
+  delay(5000);
+  
+  tmrpcm.play("hello.wav"); 
+  
+ 
+  
+}
 
-{
-tmrpcm.play("steady.wav");
-}
-delay(5000);
-{
-tmrpcm.play("hello.wav");  
-}
-
-}
 
 void loop() {
-
   light = analogRead(0);
   delay(100);
   Serial.println(light);
@@ -48,25 +59,24 @@ void loop() {
   Serial.println(co2);
   delay(100);
  
- // light magic
-  if(light < 500)
-    { 
-      digitalWrite(blueLed, HIGH);
-    }
-        else
-    {
-      digitalWrite(blueLed, LOW);
-    }
+  // light magic
+  if (light < 500)
+  { 
+     digitalWrite(blueLed, HIGH);
+  }
+  else
+  {
+     digitalWrite(blueLed, LOW);
+  }
     
-    /* c02 magic
-      if (co2 < 390)
-    { 
-      digitalWrite(redLed, HIGH);
-    }
-    else
-    {
-      digitalWrite(redLed, LOW);
-    } */
-  
+  /* c02 magic
+  if (co2 < 390) 
+  { 
+     digitalWrite(redLed, HIGH);
+  }
+  else
+  {
+     digitalWrite(redLed, LOW);
+  }
+  */
 }
-
