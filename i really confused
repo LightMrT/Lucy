@@ -1,0 +1,143 @@
+#include <SD.h>   
+
+#define SD_ChipSelectPin 10  
+
+#include <TMRpcm.h>
+#include <SPI.h>
+
+TMRpcm tmrpcm;    
+
+#define redLed 6
+#define blueLed 5
+
+// raw light sensor data
+int light;
+// raw co2 sensor data
+int co2;
+
+// button pins values 
+int b1, b2, b3;
+
+
+
+// храним время для уведомлений
+unsigned long currentMillis, previousMillis;
+// интервал опроса датчиков
+unsigned long interval = 1000;
+// счетчик секунд 50мин (3000 секунд)
+unsigned long timer = 0;
+
+// возвращает CO2 уровень в чем-то 
+int getCO2Level();
+// возвращает уровень освещенности (0-темно 1024-очень ярко)
+int getLightLevel();
+
+
+void setup() {
+  Serial.begin(9600);
+  
+  pinMode(redLed, OUTPUT);
+  pinMode(blueLed, OUTPUT);
+  
+  tmrpcm.speakerPin = 9;  
+
+  if (!SD.begin(SD_ChipSelectPin)) {   
+    Serial.println("SD fail");  
+    return;    
+  }
+  
+  tmrpcm.play("steady.wav");
+  
+  delay(5000);
+  
+  tmrpcm.play("hello.wav"); 
+  
+}
+
+
+void loop() {
+   
+   int i;
+  
+   // работать только с интервалом interval
+   currentMillis = millis();
+   if(currentMillis - previousMillis > interval)
+   {
+      previousMillis = currentMillis;
+      
+      light = getLightLevel();
+      Serial.println(light);
+      delay(50);
+  
+      co2 = getCO2Level();
+      Serial.println(co2);
+      delay(50);
+ 
+  	  // light magic
+      if (light < 500)
+      { 
+         digitalWrite(blueLed, HIGH);
+      }
+      else
+      {
+         digitalWrite(blueLed, LOW);
+      }
+    
+      // c02 magic
+      if (co2 < 300) 
+      { 
+         digitalWrite(redLed, HIGH);
+      }
+      else
+      {
+         digitalWrite(redLed, LOW);
+      }
+
+      if (timer == 10)
+      {
+       
+        for(;;)             
+        {
+      		// вот тут проверять кнопки   
+			          
+        }
+            // сбросим таймер
+            timer = 0;
+      }  
+
+      timer++;   
+   }
+  
+ 
+}
+
+int getCO2Level() {   
+  unsigned long long sum = 0; 
+  for (i = 0; i < 10; i++)
+  {
+  	sum = sum + analogRead(1);
+    delay(5);
+  }
+  sum = sum / 10;
+  
+  if (sum <= 1024) 
+     return sum;
+  else
+     return 1024;
+}
+
+int getLightLevel() {
+  unsigned long long sum = 0; 
+  for (i = 0; i < 10; i++)
+  {
+  	sum = sum + analogRead(0);
+    delay(5);
+  }
+  sum = sum / 10;
+  
+  if (sum <= 1024) 
+     return sum;
+  else
+     return 1024;
+
+}
