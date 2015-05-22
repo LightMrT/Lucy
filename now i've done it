@@ -59,10 +59,7 @@ void loop() {
    
    int i;
    
-   // button pins
-   
-   b2 = digitalRead(3); 
-   b3 = digitalRead(4);
+
      
   
    // работать только с интервалом interval
@@ -80,7 +77,7 @@ void loop() {
       delay(50);
  
   	  // light magic
-      if (light < 500)
+      if (light < 1000)
       { 
          digitalWrite(blueLed, HIGH);
       }
@@ -90,7 +87,7 @@ void loop() {
       }
     
       // c02 magic
-      if (co2 < 300) 
+      if (co2 < 350) 
       { 
          digitalWrite(redLed, HIGH);
       }
@@ -99,9 +96,9 @@ void loop() {
          digitalWrite(redLed, LOW);
       }
 
-      if (timer == 5) // time 'til exercise
+      if (timer == 20) // time 'til exercise
       {
-       // tmrpcm.play("icu.wav");
+       // tmrpcm.play("time.wav");
         
         for(;;)             
         {
@@ -113,19 +110,19 @@ void loop() {
                  // button 1                
                  if (b1 == 0)
                  {
-                    tmrpcm.play("hello.wav");
+                    tmrpcm.play("ex1.wav");
                     break;
                  }	          
                  // button 2                                                  
                  if (b2 == 0)
                  {
-                    tmrpcm.play("apple.wav");
+                    tmrpcm.play("ex2.wav");
                     break;
                  }
                  // button 3                                  
                  if (b3 == 0)
                  {
-                    tmrpcm.play("gate.wav");
+                    tmrpcm.play("ex3.wav");
                     break;
                  }
                  
